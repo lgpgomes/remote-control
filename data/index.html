@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<style>
+    * {
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background: #2b2d2f;
+        height: 100vh;
+        font-family: 'Bebas Neue', sans-serif;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .control-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .control {
+        display: flex;
+        position: relative;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        gap: 26px;
+        padding: 24px 18px;
+        width: 220px;
+        border-radius: 10px;
+        border: 1px solid #333;
+        background: #2b2d2f;
+        box-sizing: border-box;
+        box-shadow: -1px -1px 3px 0 #5f5f5f, 1px 1px 3px 0 black;
+    }
+    .button {
+        border: 0;
+        width: 40px;
+        height: 40px;
+        padding: 0px;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: -1px -1px 3px 0 #5f5f5f, 1px 1px 3px 0 black;
+        color: rgba(255, 255, 255, 0.6);
+        background: rgba(0, 0, 0, 0);
+        transition: box-shadow .1s;
+    }
+    .button:active {
+        box-shadow: inset 1px 1px 3px 0 black, inset -1px -1px 3px 0 #5f5f5f;
+
+    }
+    .button-inner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        box-shadow: inset 0 0 0 #000;
+        border-radius: 50%;
+        transition: box-shadow .1s;
+    }
+    .button:active .button-inner {
+        box-shadow: inset 1px 1px 3px 0 black, inset -1px -1px 3px 0 #5f5f5f;
+    }
+    .button:active .content {
+        transform: scale(0.96);
+        filter: blur(0.4px);
+    }
+    .content {
+        font-weight: 600;
+        font-size: 16px;
+        transition: box-shadow .1s;
+        line-height: 1;
+    }
+    .line {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        align-items: center;
+    }
+    .center {
+        justify-content: center;
+    }
+    .tv-buttons {
+        display: flex;
+        gap: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        border: 2px solid #5f5f5f;
+        transform: scale(0.75);
+        position: relative;
+        transform-origin: 100%;
+    }
+    .tv-buttons::before {
+        content: "TV";
+        position: absolute;
+        top: -8px;
+        color: #5f5f5f;
+        background: #2b2d2f;
+        left: 0;
+        font-size: 14px;
+        right: 0;
+        margin: auto;
+        width: max-content;
+        align-items: center;
+        padding: 0 8px;
+        line-height: 1;
+    }
+
+    .power {
+        font-size: 20px;
+        color: #cc3c3c;
+    }
+
+    .nav-button-wrapper {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        position: relative;
+        padding: 21.42px 0;
+    }
+
+    .nav-button {
+        width: 101px;
+        height: 101px;
+        border-radius: 5px;
+        transform: rotate(45deg);
+        box-shadow: -1px -1px 3px 0 #5f5f5f, 1px 1px 3px 0 black;
+        position: relative;
+        border: 0;
+    }
+    .nav-central {
+        top: 0;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        padding: 0;
+        width: 42px;
+        height: 42px;
+        rotate: -45deg;
+        background: #2b2d2f;
+        border: 0;
+        color: rgba(255, 255, 255, 0.6);
+        box-shadow: -1px -1px 3px 0 #5f5f5f, 1px 1px 3px 0 black;
+        border-radius: 5px;
+        z-index: 1;
+        transition: box-shadow .1s;
+        cursor: pointer;
+        -webkit-backface-visibility: hidden;
+    }
+    .nav-central-inner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: inset 0 0 0 #000;
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+        box-sizing: border-box;
+        transition: box-shadow .1s;
+    }
+    .nav-central:active {
+        box-shadow: 0 0 0 #000;
+    }
+    .nav-central:active .nav-central-inner {
+        box-shadow: inset 1px 1px 3px 0 black, inset -1px -1px 3px 0 #5f5f5f;
+    }
+    .nav-central:active .content {
+        transform: scale(0.96);
+        filter: blur(0.4px);
+        transition: box-shadow .1s;
+    }
+    .nav-around:active .content {
+        transform: scale(0.92);
+        filter: blur(0.4px);
+        transition: box-shadow .1s;
+    }
+    .nav-around {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        bottom: 0;
+        right: 0;
+        background: transparent;
+        border: 0;
+        font-size: 16px;
+        color: rgba(255, 255, 255, 0.6);
+        border-radius: 5px;
+        padding: 0;
+        cursor: pointer;
+    }
+    .nav-around .content {
+        font-size: 12px;
+        font-weight: 100;
+        rotate: -45deg;
+
+    }
+    #chUp {
+        top: 0;
+        left: 0;
+    }
+    #chUp .content {
+        padding-bottom: 12px;
+    }
+    #volUp {
+        top: 0;
+        right: 0;
+    }
+    #volUp .content {
+        padding-left: 12px;
+    }
+    #volDown {
+        bottom: 0;
+        left: 0;
+    }
+    #volDown .content {
+        padding-right: 12px;
+    }
+    #chDown {
+        bottom: 0;
+        right: 0;
+    }
+    #chDown .content {
+        padding-top: 12px;
+    }
+    .others-buttons {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        margin: -21.42px 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .others-buttons-line {
+        display: flex;
+        justify-content: space-between;
+    }
+    .others-buttons .button {
+        border-radius: 5px;
+        transform: scale(0.75);
+    }
+    .others-buttons .button-inner {
+        border-radius: 5px;
+        padding: 6px;
+    }
+    #sourceTv .content, .others-buttons .content {
+        font-size: 11px;
+    }
+    .number {
+        width: 45px;
+        height: 30px;
+        border-radius: 5px;
+    }
+    .number .button-inner {
+        border-radius: 5px;
+        padding: 6px;
+    }
+    .number .content {
+        display: flex;
+        gap: 3px;
+    }
+    .letter {
+        font-size: 9px;
+        font-weight: 300;
+        margin-top: 2px;
+    }
+    .grid-numbers {
+        display: grid;
+        width: 100%;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        gap: 21px;
+    }
+    .other {
+        width: 35px;
+        height: 25px;
+        border-radius: 5px;
+    }
+    .other .button-inner {
+        border-radius: 5px;
+        padding: 6px;
+    }
+    #buttonA{
+        color: #cc3c3cca;
+    }
+    #buttonB{
+        color: #40cc3cca;
+    }
+    #buttonC{
+        color: #ccc53cca;
+    }
+    #buttonD{
+        color: #3ca0ccca;
+    }
+    .bottom {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 13px;
+    }
+    @media (max-width: 500px) {
+        .control {
+            scale: 1.13;
+        }
+    }
+    #led {
+        position: absolute;
+        height: 4px;
+        width: 4px;
+        background-color: #B03A2E;
+        right: 0;
+        left: 0;
+        top: 8px;
+        margin: auto;
+        border-radius: 50%;
+        box-shadow: 0 0 10px 0px rgba(0,0,0,0.5);
+    }
+    .bright {
+        background-color: #ff4f3b !important;
+    }
+</style>
+</head>
+<body>
+    <div class="control-wrapper">
+        <div class="control">
+            <span id="led"></span>
+
+            <div class="line">
+                <button class="button" id="power" >
+                    <div class="button-inner">
+                        <i class="content power fa-solid fa-power-off"></i>
+                    </div>
+                </button>
+
+
+                <div class="tv-buttons ">
+                    <button class="button" id="powerTv" >
+                        <div class="button-inner">
+                            <i class="content fa-solid fa-tv"></i>
+                        </div>
+                    </button>
+    
+                    <button class="button" id="sourceTv" >
+                        <div class="button-inner">
+                            <span class="content">
+                                TV/AV
+                            </span>
+                        </div>
+                    </button>
+                </div>
+
+
+
+            </div>
+            <div class="line center">
+                <div class="nav-button-wrapper">
+                    <div class="others-buttons">
+                        <div class="others-buttons-line">
+                            <button class="button" id="menu" >
+                                <div class="button-inner">
+                                    <span class="content">
+                                        Menu
+                                    </span>
+                                </div>
+                            </button>
+                            <button class="button" id="info" >
+                                <div class="button-inner">
+                                    <span class="content">
+                                        Info
+                                    </span>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="others-buttons-line">
+                            <button class="button" id="mute" >
+                                <div class="button-inner">
+                                    <i class="content fa-solid fa-volume-xmark"></i>
+                                </div>
+                            </button>
+                            <button class="button" id="exit" >
+                                <div class="button-inner">
+                                    <span class="content">
+                                        Exit
+                                    </span>
+                                </div>
+                            </button>
+                        </div>
+
+
+                    </div>
+                    <div class="nav-button ">
+                        <button class="nav-central" id="buttonOk" >
+                            <div class="nav-central-inner">
+                                <div class="content">
+                                    OK
+                                </div>
+                            </div>
+                        </button>
+                        <button class="nav-around" id="chUp" >
+                            <div class="content">
+                                <i class="fa-solid fa-chevron-up"></i>
+                            </div>
+                        </button > 
+                        <button class="nav-around" id="volUp" >
+                            <div class="content">
+                                <i class="fa-solid fa-volume-high"></i>
+                            </div>
+                        </button>
+                        <button class="nav-around" id="volDown" ">
+                           <div class="content">
+                            <i class="fa-solid fa-volume-low"></i>
+                        </div> 
+                        </button>
+                        <button class="nav-around" id="chDown" >
+                            <div class="content">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="grid-numbers">
+                <button class="button number" id="numberOne" >
+                    <div class="button-inner">
+                        <div class="content">
+                            1
+                        </div>
+                    </div>
+                </button>
+                <button class="button number" id="numberTwo" >
+                    <div class="button-inner">
+                        <div class="content">
+                            2
+                            <span class="letter">ABC</span>
+
+                        </div>
+                    </div>
+                </button>
+                <button class="button number" id="numberThree" >
+                    <div class="button-inner">
+                        <div class="content">
+                            3
+                            <span class="letter">DEF</span>
+                        </div>
+                    </div>
+                </button>
+                <button class="button number" id="numberFour" >
+                    <div class="button-inner">
+                        <div class="content">
+                            4
+                            <span class="letter">GHI</span>
+                        </div>
+                    </div>
+                </button>
+                <button class="button number" id="numberFive" >
+                    <div class="button-inner">
+                        <div class="content">
+                            5
+                            <span class="letter">JKL</span>
+                        </div>
+                    </div>
+                </button>
+                <button class="button number" id="numberSix" >
+                    <div class="button-inner">
+                        <div class="content">
+                            6
+                            <span class="letter">MNO</span>
+                        </div>
+                    </div>
+                </button>
+                <button class="button number" id="numberSeven" >
+                    <div class="button-inner">
+                        <div class="content">
+                            7
+                            <span class="letter">PQRS</span>
+                        </div>
+                    </div>
+                </button>
+                <button class="button number" id="numberEight" >
+                    <div class="button-inner">
+                        <div class="content">
+                            8
+                            <span class="letter">TUV</span>
+                        </div>
+                    </div>
+                </button>
+                <button class="button number" id="numberNine" >
+                    <div class="button-inner">
+                        <div class="content">
+                            9
+                            <span class="letter">WXYZ</span>
+                        </div>
+                    </div>
+                </button>
+                <button class="button number" id="recall" >
+                    <div class="button-inner">
+                        <div class="content">
+                            <span class="letter">RECALL</span>
+                        </div>
+                    </div>
+                </button>
+                <button class="button number" id="numberZero" >
+                    <div class="button-inner">
+                        <div class="content">
+                            0
+                        </div>
+                    </div>
+                </button>
+                <button class="button number" id="tvrd" >
+                    <div class="button-inner">
+                        <div class="content">
+                            <span class="letter">TV/RD</span>
+                        </div>
+                    </div>
+                </button>
+            </div>
+            <div class="line">
+                <button class="button other" id="buttonA" >
+                    <div class="button-inner">
+                        <div class="content">
+                            A
+                        </div>
+                    </div>
+                </button>
+                <button class="button other" id="buttonB" >
+                    <div class="button-inner">
+                        <div class="content">
+                            B
+                        </div>
+                    </div>
+                </button>
+                <button class="button other" id="buttonC" >
+                    <div class="button-inner">
+                        <div class="content">
+                            C
+                        </div>
+                    </div>
+                </button>
+                <button class="button other" id="buttonD" >
+                    <div class="button-inner">
+                        <div class="content">
+                            D
+                        </div>
+                    </div>
+                </button>
+            </div>
+            <div class="bottom">
+                Controle Universal
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+var onlongtouch
+var timer
+var touchduration = 1500
+
+const led = document.getElementById("led")
+const buttons = document.querySelectorAll("button")
+buttons.forEach(button => {
+    button.addEventListener("click", click);
+    button.addEventListener("touchstart", touchstart)
+    button.addEventListener("touchend", touchend)
+    button.addEventListener("mousedown", touchstart)
+    button.addEventListener("mouseup", touchend)
+})
+
+function request(url) {
+    var xhttp = new XMLHttpRequest()
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText)
+        }
+    }
+    xhttp.open("GET", url, true)
+    xhttp.send()
+}
+
+function click (e) {
+    let buttonId = e.currentTarget.id
+    let url = "sendIrCode?buttonId="+buttonId;
+    navigator.vibrate(55)
+    brightLed(55)
+    request(url)
+}
+
+function touchstart(e) {
+    //e.preventDefault()
+    let buttonId = e.currentTarget.id
+    timer = setTimeout(function() {
+        onlongtouch(buttonId)
+    }, touchduration)
+}
+
+function touchend() {
+    if (timer) clearTimeout(timer)
+}
+
+onlongtouch = async function(buttonId) {
+    let url = "changeIrCode?buttonId="+buttonId
+    navigator.vibrate(550)
+    brightLed(550)
+    request(url)
+}
+
+function brightLed (time) {
+    led.classList.add("bright")
+    setTimeout(function(){
+        led.classList.remove("bright")
+    },time)
+}
+
+
+
+
+
+</script>
+</body>
+</html>
