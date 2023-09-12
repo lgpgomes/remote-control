@@ -8,11 +8,11 @@
 #define LED_IR 14 //D5
 #define RECV_PIN 12 //D6
 
-#define FIREBASE_HOST ""
-#define FIREBASE_AUTH ""
+#define FIREBASE_HOST "ircontroltv-default-rtdb.firebaseio.com"
+#define FIREBASE_AUTH "zVcoOqwEBGC9ZfZbMc64ZuK9c2Tn9kEI24Hh8pda"
 
-#define SSID_WIFI ""
-#define PASS_WIFI ""
+#define SSID_WIFI "INTELBRAS"
+#define PASS_WIFI "samsung+aquario"
 
 IRsend irsend(LED_IR);
 IRrecv irrecv(RECV_PIN);
@@ -22,7 +22,6 @@ ESP8266WebServer server(80);
 unsigned long irStartTime = 0;
 bool handlingIr = false;
 char buttonId[64] = "";
-
 
 FirebaseData firebaseData;
 
@@ -153,7 +152,7 @@ void setup() {
   server.on("/sendIrCode", handleIRControl);
   server.on("/changeIrCode", changeCode);
   server.on("/getIrCode", getCode);
-{
+
   server.serveStatic("/", SPIFFS, "/", "max-age=86400");
   connectToWifi();
   Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);

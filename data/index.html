@@ -186,7 +186,7 @@
         transition: box-shadow .1s;
     }
     .nav-around:active .content {
-        transform: scale(0.92);
+        zoom: 0.86;
         filter: blur(0.4px);
         transition: box-shadow .1s;
     }
@@ -574,7 +574,6 @@ var touchduration = 1500
 const led = document.getElementById("led")
 const buttons = document.querySelectorAll("button")
 buttons.forEach(button => {
-    button.addEventListener("click", click);
     button.addEventListener("touchstart", touchstart)
     button.addEventListener("touchend", touchend)
     button.addEventListener("mousedown", touchstart)
@@ -592,17 +591,15 @@ function request(url) {
     xhttp.send()
 }
 
-function click (e) {
-    let buttonId = e.currentTarget.id
-    let url = "sendIrCode?buttonId="+buttonId;
-    navigator.vibrate(55)
-    brightLed(55)
-    request(url)
-}
 
 function touchstart(e) {
     //e.preventDefault()
     let buttonId = e.currentTarget.id
+    let url = "sendIrCode?buttonId="+buttonId
+    navigator.vibrate(55)
+    brightLed(55)
+    request(url)
+
     timer = setTimeout(function() {
         onlongtouch(buttonId)
     }, touchduration)
